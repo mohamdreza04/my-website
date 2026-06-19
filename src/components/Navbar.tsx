@@ -3,7 +3,7 @@ import { useLang } from '../contexts/LanguageContext'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const { lang, setLang, t, isRTL } = useLang()
+  const { lang, setLang, t } = useLang()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)

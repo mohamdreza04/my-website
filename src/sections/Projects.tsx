@@ -44,7 +44,7 @@ export default function Projects() {
         scrollTrigger: { trigger: headingRef.current, start: 'top 80%' },
       })
 
-      rowRefs.current.forEach((row, i) => {
+      rowRefs.current.forEach((row) => {
         if (!row) return
         gsap.fromTo(row,
           { opacity: 0, y: 40 },
