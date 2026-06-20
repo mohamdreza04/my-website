@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLang } from '../contexts/LanguageContext'
 
 export default function Navbar() {
@@ -6,9 +7,12 @@ export default function Navbar() {
   const { lang, setLang, t } = useLang()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    const st = ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => setScrolled(self.scroll() > 60),
+    })
+    return () => st.kill()
   }, [])
 
   const links = [

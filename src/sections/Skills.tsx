@@ -77,7 +77,7 @@ export default function Skills() {
   }, [lang])
 
   return (
-    <section ref={sectionRef} id="skills" className="py-40" style={{ background: '#080808' }}>
+    <section ref={sectionRef} id="skills" className="py-40 relative" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.012) 50%, transparent 100%)' }}>
       <div className="max-w-4xl mx-auto px-8">
 
         <div ref={labelRef} style={{ opacity: 0 }} className="mb-6">
@@ -90,7 +90,7 @@ export default function Skills() {
           className="text-white mb-16"
           style={{ fontFamily: font, fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3.2rem)', opacity: 0 }}
         >
-          {isRTL ? <>ابزارهایی که <span style={{ fontWeight: 700 }}>باهاشون کار میکنم</span></> : <>Tools I <span style={{ fontWeight: 700 }}>work with</span></>}
+          {isRTL ? <>فناوری‌ها و <span style={{ fontWeight: 700 }}>ابزارهای تخصصی</span></> : <>Technical <span style={{ fontWeight: 700 }}>Proficiencies</span></>}
         </h2>
 
         <div>

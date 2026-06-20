@@ -1,23 +1,71 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { FiArrowUpRight } from 'react-icons/fi'
+import { FiArrowUpRight, FiGithub, FiCode } from 'react-icons/fi'
 import { useLang } from '../contexts/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const GITHUB_USER = 'https://github.com/mohamdreza04'
+
 const projectsFa = [
-  { id: '01', title: 'پنل مدیریت', desc: 'داشبورد ادمین کامل با React و TypeScript', tags: ['React', 'TypeScript', 'Tailwind'], color: '#1a1a2e' },
-  { id: '02', title: 'فروشگاه آنلاین', desc: 'اپلیکیشن فروشگاهی با سبد خرید و فیلتر محصولات', tags: ['React', 'Redux', 'API'], color: '#1f1a14' },
-  { id: '03', title: 'اپ آب‌وهوا', desc: 'نمایش وضعیت آب‌وهوا با اتصال به API خارجی', tags: ['React', 'JavaScript', 'API'], color: '#0f1f1a' },
-  { id: '04', title: 'پورتفولیو شخصی', desc: 'همین سایتی که الان داری میبینی', tags: ['React', 'GSAP', 'Tailwind'], color: '#1a1414' },
+  {
+    id: '01',
+    title: 'اپ یادگیری زبان چینی',
+    desc: 'اپلیکیشن تعاملی برای یادگیری واژگان و مکالمات زبان چینی، طراحی‌شده با تمرکز بر سادگی استفاده و تجربه یادگیری تدریجی.',
+    tags: ['JavaScript', 'React'],
+    accent: '#6366f1',
+    gradient: 'linear-gradient(135deg, #1e1b4b 0%, #0a0a0a 70%)',
+    github: 'https://github.com/mohamdreza04/chinese-learn',
+  },
+  {
+    id: '02',
+    title: 'سایت آگهی و تبلیغات',
+    desc: 'پلتفرم ثبت و مشاهده آگهی با امکان دسته‌بندی محتوا و رابط کاربری ساده برای کاربران.',
+    tags: ['JavaScript', 'HTML/CSS'],
+    accent: '#f59e0b',
+    gradient: 'linear-gradient(135deg, #451a03 0%, #0a0a0a 70%)',
+    github: 'https://github.com/mohamdreza04/agahi-salawati',
+  },
+  {
+    id: '03',
+    title: 'وب‌سایت پورتفولیو',
+    desc: 'همین سایتی که الان داری میبینی؛ طراحی‌شده با React، GSAP و Tailwind با تمرکز بر تجربه کاربری و انیمیشن‌های اسکرولی.',
+    tags: ['React', 'GSAP', 'Tailwind'],
+    accent: '#10b981',
+    gradient: 'linear-gradient(135deg, #022c22 0%, #0a0a0a 70%)',
+    github: 'https://github.com/mohamdreza04/my-website',
+  },
 ]
 
 const projectsEn = [
-  { id: '01', title: 'Admin Dashboard', desc: 'A full admin dashboard with React and TypeScript', tags: ['React', 'TypeScript', 'Tailwind'], color: '#1a1a2e' },
-  { id: '02', title: 'E-commerce Store', desc: 'A shopping app with cart and product filters', tags: ['React', 'Redux', 'API'], color: '#1f1a14' },
-  { id: '03', title: 'Weather App', desc: 'Displays live weather using an external API', tags: ['React', 'JavaScript', 'API'], color: '#0f1f1a' },
-  { id: '04', title: 'Personal Portfolio', desc: "The very site you're looking at right now", tags: ['React', 'GSAP', 'Tailwind'], color: '#1a1414' },
+  {
+    id: '01',
+    title: 'Chinese Learning App',
+    desc: 'An interactive app for learning Chinese vocabulary and conversation, designed with a focus on ease of use and progressive learning.',
+    tags: ['JavaScript', 'React'],
+    accent: '#6366f1',
+    gradient: 'linear-gradient(135deg, #1e1b4b 0%, #0a0a0a 70%)',
+    github: 'https://github.com/mohamdreza04/chinese-learn',
+  },
+  {
+    id: '02',
+    title: 'Classifieds & Listings Platform',
+    desc: 'A platform for posting and browsing listings, with content categorization and a simple, user-friendly interface.',
+    tags: ['JavaScript', 'HTML/CSS'],
+    accent: '#f59e0b',
+    gradient: 'linear-gradient(135deg, #451a03 0%, #0a0a0a 70%)',
+    github: 'https://github.com/mohamdreza04/agahi-salawati',
+  },
+  {
+    id: '03',
+    title: 'Portfolio Website',
+    desc: "The very site you're looking at right now; built with React, GSAP, and Tailwind with a focus on user experience and scroll-driven motion.",
+    tags: ['React', 'GSAP', 'Tailwind'],
+    accent: '#10b981',
+    gradient: 'linear-gradient(135deg, #022c22 0%, #0a0a0a 70%)',
+    github: 'https://github.com/mohamdreza04/my-website',
+  },
 ]
 
 export default function Projects() {
@@ -25,12 +73,11 @@ export default function Projects() {
   const isRTL = lang === 'fa'
   const projects = isRTL ? projectsFa : projectsEn
   const font = isRTL ? 'Vazirmatn, sans-serif' : 'Inter, sans-serif'
-  const [hovered, setHovered] = useState<number | null>(null)
 
   const sectionRef = useRef<HTMLElement>(null)
   const labelRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
-  const rowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const cardRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -44,13 +91,13 @@ export default function Projects() {
         scrollTrigger: { trigger: headingRef.current, start: 'top 80%' },
       })
 
-      rowRefs.current.forEach((row) => {
-        if (!row) return
-        gsap.fromTo(row,
-          { opacity: 0, y: 40 },
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return
+        gsap.fromTo(card,
+          { opacity: 0, y: 60 },
           {
-            opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-            scrollTrigger: { trigger: row, start: 'top 92%' },
+            opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: (i % 3) * 0.08,
+            scrollTrigger: { trigger: card, start: 'top 90%' },
           }
         )
       })
@@ -61,103 +108,121 @@ export default function Projects() {
   }, [lang])
 
   return (
-    <section ref={sectionRef} id="projects" className="py-40 bg-background relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-8">
+    <section ref={sectionRef} id="projects" className="py-40 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-8">
 
-        <div ref={labelRef} style={{ opacity: 0 }} className="mb-6">
+        <div ref={labelRef} style={{ opacity: 0 }} className="mb-6 flex items-center justify-between flex-wrap gap-3">
           <p className="text-white/30 text-xs tracking-[0.3em] uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>
-            {isRTL ? '۰۴ — نمونه کارها' : '04 — Selected Work'}
+            {isRTL ? '۰۴ — نمونه پروژه‌ها' : '04 — Selected Projects'}
           </p>
+          <a
+            href={GITHUB_USER}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-white/40 hover:text-white text-xs transition-colors duration-300"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
+            <FiGithub size={14} />
+            {isRTL ? 'مشاهده همه در گیت‌هاب' : 'View all on GitHub'}
+            <FiArrowUpRight size={12} />
+          </a>
         </div>
+
         <h2
           ref={headingRef}
           className="text-white mb-16"
           style={{ fontFamily: font, fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3.5rem)', opacity: 0 }}
         >
           {isRTL
-            ? <>پروژه‌هایی که <span style={{ fontWeight: 700 }}>ساختم</span></>
-            : <>Projects I've <span style={{ fontWeight: 700 }}>built</span></>}
+            ? <>نمونه پروژه‌های <span style={{ fontWeight: 700 }}>اجراشده</span></>
+            : <>Selected <span style={{ fontWeight: 700 }}>Projects</span></>}
         </h2>
 
-        <div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((project, i) => (
-            <div
+            <a
               key={project.id}
-              ref={(el) => { rowRefs.current[i] = el }}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              className="group relative border-b border-white/8 py-8 md:py-10 cursor-pointer transition-colors duration-300"
-              style={{ opacity: 0 }}
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              ref={(el) => { cardRefs.current[i] = el }}
+              className="group relative rounded-3xl border border-white/10 overflow-hidden flex flex-col transition-all duration-500 hover:border-white/25 hover:-translate-y-1"
+              style={{ opacity: 0, minHeight: '380px' }}
             >
-              <div className="flex items-center justify-between gap-6">
-                <div className="flex items-baseline gap-6 md:gap-10 flex-1 min-w-0">
-                  <span
-                    className="text-white/20 group-hover:text-white/50 transition-colors duration-300 flex-shrink-0"
-                    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.85rem' }}
-                  >
-                    {project.id}
-                  </span>
-                  <h3
-                    className="text-white/80 group-hover:text-white transition-all duration-300 truncate"
-                    style={{
-                      fontFamily: font,
-                      fontWeight: 500,
-                      fontSize: 'clamp(1.4rem, 3.2vw, 2.4rem)',
-                    }}
-                  >
-                    {project.title}
-                  </h3>
-                </div>
-
-                <div className="hidden md:flex items-center gap-2 flex-shrink-0">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 rounded-full border border-white/10 text-white/30 text-xs group-hover:text-white/50 group-hover:border-white/20 transition-colors duration-300"
-                      style={{ fontFamily: 'Inter, sans-serif' }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center text-white/40 group-hover:text-white group-hover:border-white/40 group-hover:rotate-45 transition-all duration-500 flex-shrink-0">
-                  <FiArrowUpRight size={18} />
-                </div>
-              </div>
-
-              <p
-                className="text-white/35 mt-3 max-w-md hidden md:block"
-                style={{ fontFamily: font, fontWeight: 300, fontSize: '0.95rem' }}
-              >
-                {project.desc}
-              </p>
-
-              {/* floating preview chip that follows hover, like an Awwwards gallery */}
+              {/* visual top area with gradient + big code icon */}
               <div
-                className="hidden lg:block absolute top-1/2 pointer-events-none rounded-2xl overflow-hidden transition-all duration-500 ease-out"
-                style={{
-                  right: isRTL ? 'auto' : '-40px',
-                  left: isRTL ? '-40px' : 'auto',
-                  width: '200px',
-                  height: '140px',
-                  transform: hovered === i ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0.85)',
-                  opacity: hovered === i ? 1 : 0,
-                  background: `linear-gradient(135deg, ${project.color} 0%, #050505 100%)`,
-                  boxShadow: '0 20px 60px -10px rgba(0,0,0,0.6)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
+                className="relative h-44 flex items-center justify-center overflow-hidden"
+                style={{ background: project.gradient }}
               >
-                <div className="w-full h-full flex items-center justify-center">
-                  <span
-                    className="text-white/20"
-                    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: '2.5rem' }}
-                  >
-                    {project.id}
+                {/* grid texture */}
+                <div
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
+                    backgroundSize: '24px 24px',
+                  }}
+                />
+                {/* ghost id */}
+                <span
+                  className="absolute top-4 text-white/10 select-none"
+                  style={{
+                    [isRTL ? 'right' : 'left']: '16px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 800,
+                    fontSize: '3rem',
+                  }}
+                >
+                  {project.id}
+                </span>
+                {/* center icon */}
+                <div
+                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
+                  style={{ background: `${project.accent}22`, border: `1px solid ${project.accent}44` }}
+                >
+                  <FiCode size={26} style={{ color: project.accent }} />
+                </div>
+                {/* hover arrow badge */}
+                <div
+                  className="absolute top-4 w-9 h-9 rounded-full flex items-center justify-center text-white/70 bg-black/30 backdrop-blur-sm border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:rotate-45"
+                  style={{ [isRTL ? 'left' : 'right']: '16px' }}
+                >
+                  <FiArrowUpRight size={16} />
+                </div>
+              </div>
+
+              {/* content */}
+              <div className="flex-1 flex flex-col p-6">
+                <h3
+                  className="text-white mb-3 group-hover:opacity-90 transition-opacity duration-300"
+                  style={{ fontFamily: font, fontWeight: 600, fontSize: '1.25rem' }}
+                >
+                  {project.title}
+                </h3>
+                <p
+                  className="text-white/40 leading-relaxed mb-6 flex-1"
+                  style={{ fontFamily: font, fontWeight: 300, fontSize: '0.9rem', lineHeight: '1.8' }}
+                >
+                  {project.desc}
+                </p>
+
+                <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/8">
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 rounded-full border border-white/10 text-white/35 text-[11px]"
+                        style={{ fontFamily: 'Inter, sans-serif' }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="flex items-center gap-1 text-white/25 group-hover:text-white/60 transition-colors duration-300 flex-shrink-0">
+                    <FiGithub size={14} />
                   </span>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
