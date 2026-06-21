@@ -25,6 +25,7 @@ export default function About() {
   useEffect(() => {
     const ctx = gsap.context(() => {
 
+      gsap.set(lineRef.current, { visibility: 'visible' })
       gsap.fromTo(lineRef.current,
         { scaleX: 0 },
         { scaleX: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: lineRef.current, start: 'top 80%' } }
@@ -74,10 +75,10 @@ export default function About() {
   ]
 
   return (
-    <section ref={sectionRef} id="about" className="py-40 relative">
+    <section ref={sectionRef} id="about" className="py-20 md:py-40 relative">
       <div className="max-w-5xl mx-auto px-8">
 
-        <div ref={lineRef} className="h-px bg-border mb-16 origin-left" style={{ transform: 'scaleX(0)' }} />
+        <div ref={lineRef} className="h-px bg-border mb-16 origin-left" style={{ transform: 'scaleX(0)', visibility: 'hidden' }} />
 
         <div ref={labelRef} className="mb-10" style={{ opacity: 0 }}>
           <p className="text-white/30 text-xs tracking-[0.3em] uppercase" style={{ fontFamily: 'Inter, sans-serif' }}>

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import emailjs from '@emailjs/browser'
 import { FiGithub, FiLinkedin, FiArrowUpRight, FiCopy, FiCheck, FiSend } from 'react-icons/fi'
 import { useLang } from '../contexts/LanguageContext'
+import { haptic } from '../lib/haptics'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -69,6 +70,7 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(EMAIL)
       setCopied(true)
+      haptic('light')
       setTimeout(() => setCopied(false), 2000)
     } catch {
       // ignore
@@ -83,6 +85,7 @@ export default function Contact() {
     e.preventDefault()
     if (!formRef.current) return
     setStatus('sending')
+    haptic('light')
 
     try {
       await emailjs.sendForm(
@@ -92,11 +95,13 @@ export default function Contact() {
         { publicKey: EMAILJS_PUBLIC_KEY }
       )
       setStatus('success')
+      haptic('success')
       setValues({ name: '', email: '', message: '' })
       setTimeout(() => setStatus('idle'), 4000)
     } catch (err) {
       console.error(err)
       setStatus('error')
+      haptic('medium')
       setTimeout(() => setStatus('idle'), 4000)
     }
   }
@@ -110,7 +115,7 @@ export default function Contact() {
     'w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/25 outline-none transition-colors duration-300 focus:border-white/30 focus:bg-white/[0.05]'
 
   return (
-    <section ref={sectionRef} id="contact" className="relative pt-40 pb-12 overflow-hidden">
+    <section ref={sectionRef} id="contact" className="relative pt-20 md:pt-40 pb-12 overflow-hidden">
       <div className="max-w-2xl mx-auto px-8">
 
         <div ref={labelRef} style={{ opacity: 0 }} className="mb-6 text-center">
