@@ -5,6 +5,7 @@ import emailjs from '@emailjs/browser'
 import { FiGithub, FiLinkedin, FiArrowUpRight, FiCopy, FiCheck, FiSend } from 'react-icons/fi'
 import { useLang } from '../contexts/LanguageContext'
 import { haptic } from '../lib/haptics'
+import PullLamp from '../components/PullLamp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -246,6 +247,10 @@ export default function Contact() {
               <FiArrowUpRight size={13} className="opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
             </a>
           ))}
+        </div>
+
+        <div className="flex justify-center mb-2">
+          <PullLamp />
         </div>
 
         <div ref={footerRef} className="border-t border-white/8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ opacity: 0 }}>
